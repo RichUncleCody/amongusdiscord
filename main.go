@@ -30,15 +30,12 @@ func discordMainWrapper() error {
 		err = godotenv.Load("final.txt")
 		if err != nil {
 			err = godotenv.Load("final.env.txt")
-			if err != nil {
-				return errors.New("error loading environment file; you need a file named final.env, final.txt, or final.env.txt")
 			}
 		}
-	}
 
-	discordToken := os.Getenv("DISCORD_BOT_TOKEN")
-	if discordToken == "" {
-		return errors.New("no DISCORD_BOT_TOKEN provided")
+	discordToken, tokenSuccess := os.LookupEnv("DISCORD_BOT_TOKEN")
+	if !(tokenSuccess) {
+		return errors.New("no DISCORD_BOT_TOKEN provided, please provide via environmental variable or a file named final.env, final.txt, or final.env.txt")
 	}
 
 	//TODO disabled move dead players for pre-release for a solid baseline of features
