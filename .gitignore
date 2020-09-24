@@ -20,3 +20,6 @@ temp.png
 discuss.png
 ending.png
 acme.json
+
+#Our environmental variables, i.e. auth passwords and discord bot tokens
+.env
