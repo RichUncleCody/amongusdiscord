@@ -6,7 +6,7 @@ services:
     restart: always
     ports:
 #      - 80:80
-      - 8083:443
+      - 443:443
       - 8124:8124
     command:
       - "--global.sendAnonymousUsage=false"
