@@ -18,6 +18,7 @@ services:
       - "--certificatesresolvers.letsencrypt.acme.email=${ACME_EMAIL}"
       - "--certificatesresolvers.letsencrypt.acme.storage=/etc/acme/acme.json"
       - "--api.dashboard=true"
+      - "--providers.docker.exposedbydefault=false"
     volumes:
       -  /var/run/docker.sock:/var/run/docker.sock        
       - ./acme/:/etc/acme/
