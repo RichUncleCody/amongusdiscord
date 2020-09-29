@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"io"
 	"log"
 	"os"
 	"strconv"
@@ -11,6 +12,8 @@ import (
 	"github.com/joho/godotenv"
 )
 
+const VERSION = "2.2.0-Prerelease"
+
 const DefaultPort = "8123"
 
 func main() {
@@ -18,8 +21,8 @@ func main() {
 	if err != nil {
 		log.Println("Program exited with the following error:")
 		log.Println(err)
-		log.Println("This window will automatically terminate in 30 seconds")
-		time.Sleep(30 * time.Second)
+		log.Println("This window will automatically terminate in 10 seconds")
+		time.Sleep(10 * time.Second)
 		return
 	}
 }
@@ -29,28 +32,28 @@ func discordMainWrapper() error {
 	if err != nil {
 		err = godotenv.Load("final.txt")
 		if err != nil {
-			err = godotenv.Load("final.env.txt")
-			if err != nil {
-				return errors.New("error loading environment file; you need a file named final.env, final.txt, or final.env.txt")
-			}
+			log.Println("Can't open env file, hopefully you're running in docker and have provided the DISCORD_BOT_TOKEN...")
 		}
 	}
+
+	logEntry := os.Getenv("DISABLE_LOG_FILE")
+	if logEntry == "" {
+		file, err := os.Create("logs.txt")
+		if err != nil {
+			return err
+		}
+		mw := io.MultiWriter(os.Stdout, file)
+		log.SetOutput(mw)
+	}
+
+	emojiGuildID := os.Getenv("EMOJI_GUILD_ID")
+
+	log.Println(VERSION)
 
 	discordToken := os.Getenv("DISCORD_BOT_TOKEN")
 	if discordToken == "" {
 		return errors.New("no DISCORD_BOT_TOKEN provided")
 	}
-
-	//TODO disabled move dead players for pre-release for a solid baseline of features
-	//discordMoveDeadPlayersStr := os.Getenv("DISCORD_MOVE_DEAD_PLAYERS")
-	discordMoveDeadPlayers := false
-	//ret, err := strconv.ParseBool(discordMoveDeadPlayersStr)
-	//if err == nil {
-	//	log.Printf("Using DISCORD_MOVE_DEAD_PLAYERS %t\n", ret)
-	//	discordMoveDeadPlayers = ret
-	//} else {
-	//	log.Printf("Problem parsing DISCORD_MOVE_DEAD_PLAYERS; using %t as default\n", discordMoveDeadPlayers)
-	//}
 
 	port := os.Getenv("SERVER_PORT")
 	num, err := strconv.Atoi(port)
@@ -60,6 +63,6 @@ func discordMainWrapper() error {
 	}
 
 	//start the discord bot
-	discord.MakeAndStartBot(discordToken, discordMoveDeadPlayers, port)
+	discord.MakeAndStartBot(discordToken, port, emojiGuildID)
 	return nil
 }

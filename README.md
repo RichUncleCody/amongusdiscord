@@ -3,7 +3,9 @@
 # AmongUsAutoMute (BETA)
 Discord Bot to scrape Among Us on-screen data, and automatically mute/unmute players during the course of the game!
 
-**This program is in Beta. While we are confident about the basic functionality, there will still be issues or peecularities with how the program functions! We are actively working to resolve these issues!**
+Works in conjunction with [amonguscapture](https://github.com/denverquane/amonguscapture)
+
+**This program is in Beta. While we are confident about the basic functionality, there will still be issues or pecularities with how the program functions! We are actively working to resolve these issues!**
 
 Have any questions, concerns, bug reports, or just want to chat? Join the discord at https://discord.gg/ZkqZSWF!
 
@@ -13,8 +15,10 @@ Have any questions, concerns, bug reports, or just want to chat? Join the discor
 2. You need a minimum of 12 open emoji slots on your server. The bot uses player emojis to link discord users to in-game player colors; it will add them automatically, but you need at least 12 slots (25 recommended).
 3. You must run the discord bot, and the capture portion (See Easiest installation below) at the same time, and on the same PC (for now).
 
-# Demo + Installation Video (click the image):
-[![Demo Video](https://img.youtube.com/vi/ASPZ6DcKpCo/0.jpg)](https://youtu.be/ASPZ6DcKpCo)
+# Installation Video (click the image):
+Made by Wolfhound905 for the pre-release! :)
+
+[![Installation](https://img.youtube.com/vi/gRxKRqefzp4/0.jpg)](https://youtu.be/gRxKRqefzp4)
 
 # Installation
 
@@ -31,9 +35,9 @@ Now follow either the `Easiest` install, or the `Install From Source`:
 1. [Download the latest release executable (`.exe`) and `final.txt`](https://github.com/denverquane/amongusdiscord/releases) for this discord bot.
 2. Paste the Bot Token you obtained in the pre-installation into the `final.txt` file, after the `=` sign.
 3. Run the executable from step 1, either by double-clicking or using `./amongusdiscord.exe` in a terminal window.
-4. [Download the latest `amonguscapture_<version>.zip`](https://github.com/denverquane/amonguscapture/releases)
-5. Extract the `amonguscapture_<version>.zip` contents, and then in `guildid.txt`, simply paste the numerical ID for your server. This is your `Guild ID` as obtained in the preinstallation.
-6. **If Among Us is running,** then start the capture executable in the folder you extracted in the previous step.
+4. [Download the latest `amonguscapture.exe`](https://github.com/denverquane/amonguscapture/releases). If you are running the Discord bot remotely,
+you can add a `host.txt` file in the same folder with the contents `http://<host>:<port>` to point to that instance, but this is totally optional.
+5. **If Among Us is already running,** then start the capture executable you downloaded in the previous step. Otherwise, start the game and **then** start the capture.
 
 Congrats, if you followed the instructions correctly, the bot should now be running! See the Sample Usage section below for details.
 
@@ -70,6 +74,9 @@ The Discord Bot uses the `.au` prefix for any commands
 |`.au new`|`.au n`|None|Start a new game in the current text channel. Optionally accepts the room code and region|`.au n CODE eu`|
 |`.au track`|`.au t`|VC Name|Tell Bot to use a single voice channel for mute/unmute, and ignore any other channels|`.au t Test Voice`|
 |`.au link`|`.au l`|@name color|Manually link a discord user to their in-game color|`.au l @Soup cyan`|
+|`.au end`|`.au e`|None|End the game entirely, and stop tracking players. Unmutes all and resets state||
+|`.au unlink`|`.au u`|@name|Manually unlink a player|`.au u @player`|
+|`.au force`|`.au f`|stage|Force a transition to a stage if you encounter a problem in the state|`.au f task` or `.au f d`(discuss)|
 
 # Similar Projects
 

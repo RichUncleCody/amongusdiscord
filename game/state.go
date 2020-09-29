@@ -1,7 +1,5 @@
 package game
 
-import "strings"
-
 // Phase type
 type Phase int
 
@@ -10,50 +8,44 @@ const (
 	LOBBY   Phase = iota
 	TASKS   Phase = iota
 	DISCUSS Phase = iota
+	MENU    Phase = iota
 	//VOTING        Phase = iota
 	//GAMEOVER      Phase = iota
-	//UNINITIALIZED Phase = iota
-	//MENU          Phase = iota
+	UNINITIALIZED Phase = iota
 )
 
-// PhaseNames for lowercase, possibly for translation if needed
-var PhaseNames = map[string]Phase{
-	"lobby":      LOBBY,
-	"tasks":      TASKS,
-	"discussion": DISCUSS,
-}
+type PlayerAction int
 
-func getPhaseNameForInt(phase *Phase) string {
-	for str, idx := range PhaseNames {
-		if idx == *phase {
-			return str
-		}
-	}
-	return ""
+const (
+	JOINED       PlayerAction = iota
+	LEFT         PlayerAction = iota
+	DIED         PlayerAction = iota
+	CHANGECOLOR  PlayerAction = iota
+	FORCEUPDATED PlayerAction = iota
+	DISCONNECTED PlayerAction = iota
+	EXILED       PlayerAction = iota
+)
+
+type PhaseNameString string
+
+// PhaseNames for lowercase, possibly for translation if needed
+var PhaseNames = map[Phase]PhaseNameString{
+	LOBBY:   "LOBBY",
+	TASKS:   "TASKS",
+	DISCUSS: "DISCUSSION",
+	MENU:    "MENU",
 }
 
 // ToString for a phase
-func (phase *Phase) ToString() string {
-	return strings.ToUpper(getPhaseNameForInt(phase))
+func (phase *Phase) ToString() PhaseNameString {
+	return PhaseNames[*phase]
 }
 
 // Player struct
 type Player struct {
-	Action       int    `json:"Action"`
-	Name         string `json:"Name"`
-	Color        int    `json:"Color"`
-	IsDead       bool   `json:"IsDead"`
-	Disconnected bool   `json:"Disconnected"`
-}
-
-// PlayerUpdate struct
-type PlayerUpdate struct {
-	Player  Player
-	GuildID string
-}
-
-// PhaseUpdate struct
-type PhaseUpdate struct {
-	Phase   Phase
-	GuildID string
+	Action       PlayerAction `json:"Action"`
+	Name         string       `json:"Name"`
+	Color        int          `json:"Color"`
+	IsDead       bool         `json:"IsDead"`
+	Disconnected bool         `json:"Disconnected"`
 }
