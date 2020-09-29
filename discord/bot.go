@@ -88,7 +88,7 @@ func socketioServer(port string) {
 		log.Println("connected:", s.ID())
 		return nil
 	})
-	server.OnEvent("/", "connect", func(s socketio.Conn, msg string) {
+	server.OnEvent("/", "connectcode", func(s socketio.Conn, msg string) {
 		log.Println("set connect code:", msg)
 		guildID := ""
 		LinkCodeLock.RLock()
